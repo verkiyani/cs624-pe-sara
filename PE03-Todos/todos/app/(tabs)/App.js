@@ -5,6 +5,8 @@ import Heading from './Heading'
 import Input from './Input'
 import Button from './Button'
 import TodoList from './TodoList'
+// New import: I bring in TabBar
+import TabBar from './TabBar'
 
 let todoIndex = 0
 
@@ -19,6 +21,9 @@ class App extends Component {
     this.submitTodo = this.submitTodo.bind(this)
     this.toggleComplete = this.toggleComplete.bind(this)
     this.deleteTodo = this.deleteTodo.bind(this)
+    // I add setType to change which tab is active
+    this.setType = this.setType.bind(this)
+
   }
 
   submitTodo () {
@@ -59,12 +64,20 @@ class App extends Component {
     this.setState({ inputValue })
   }
 
+  // this function updates the type of filter (All, Active, or Complete)
+  setType(type) {
+    this.setState({ type })
+  }
+
 
   /*
     Pass the new functions (toggleComplete and deleteTodo) as props to the TodoList component.
   */
   render() {
-    const { inputValue, todos } = this.state
+       // extract "type" from state so we can use it below
+    const { inputValue, todos, type  } = this.state
+ 
+
 
     return (
       <View style={styles.container}>
@@ -78,7 +91,15 @@ class App extends Component {
           <TodoList
             toggleComplete={this.toggleComplete}
             deleteTodo={this.deleteTodo}
-            todos={todos} />
+            todos={todos}
+            // we pass the type to TodoList
+            type={type} 
+          />
+
+          <TabBar
+            type={type}
+            setType={this.setType} // this lets TabBar change the filter
+          />
           <Button submitTodo={this.submitTodo} />
         </ScrollView>
       </View>
