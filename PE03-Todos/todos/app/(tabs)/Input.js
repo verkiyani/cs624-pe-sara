@@ -1,20 +1,27 @@
 import { View, TextInput, StyleSheet } from 'react-native';
 
+// This component shows an input field where the user types a todo
 const Input = ({ inputValue, inputChange }) => (
   <View style={styles.inputContainer}>
     <TextInput
-      value={inputValue}
+      // this shows the current text typed by the user
+      value={inputValue} 
       style={styles.input}
-      placeholder="What needs to be done?"
+      // this is the grey text before typing
+      placeholder="What needs to be done?" 
       placeholderTextColor="#CACACA"
-      selectionColor="#666666"
-      underlineColorAndroid="transparent"
-      autoCorrect={false}
-      onChangeText={inputChange}
+      selectionColor="#666666" 
+      // removes the underline on Android
+      underlineColorAndroid="transparent" 
+      // I don’t want autocorrect for this input
+      autoCorrect={false} 
+      // when user types, this function is called
+      onChangeText={inputChange} 
     />
   </View>
 );
 
+// Here I add some styles to the input box and its container
 const styles = StyleSheet.create({
   inputContainer: {
     marginLeft: 20,
@@ -22,14 +29,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     shadowColor: '#000000',
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: { width: 2, height: 2 }, 
   },
   input: {
-    height: 60,
-    backgroundColor: '#ffffff',
+    height: 60, 
+    backgroundColor: '#ffffff', 
     paddingLeft: 10,
-    paddingRight: 10,
+    paddingRight: 10, // adds some space inside the inpu
   },
 });
+
 
 export default Input;
