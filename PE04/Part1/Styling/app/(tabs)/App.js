@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+// Add text
+import { Image, StyleSheet, View, Text } from 'react-native';
+
+
+
 
 export default class App extends Component {
   render() {
@@ -9,9 +13,15 @@ export default class App extends Component {
           <View style={styles.cardImageContainer}>
             <Image
               style={styles.cardImage}
-              source={require('../../assets/images/user.png')}
+              source={require('../../assets/images/sara.png')}
             />
           </View>
+          <Text style={styles.nameText}>Sara Verkiyani</Text>
+          <Text style={styles.occupationText}>React Native Developer</Text>
+          <Text style={styles.descriptionText}>
+            Sara is a really great developer. She loves using JS to build React Native applications for iOS and Android.
+          </Text>
+
         </View>
       </View>
     );
@@ -51,4 +61,25 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
   },
+
+  nameText: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  color: 'white',
+  marginTop: 15,
+  },
+  occupationText: {
+    fontSize: 16,
+    fontStyle: 'italic',
+    color: 'white',
+    marginBottom: 10,
+    textDecorationLine: 'underline',
+  },
+  descriptionText: {
+    fontSize: 14,
+    color: 'white',
+    paddingHorizontal: 20,
+    textAlign: 'center',
+  },
+
 });

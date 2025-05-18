@@ -62,6 +62,8 @@ const darkStyleSheet = StyleSheet.create({
     }
 });
 
+
+
 /*
     Function that will return the appropriate theme based on a Boolean value.
     Returns the dark theme if useDarkTheme is true; otherwise returns the light theme.
