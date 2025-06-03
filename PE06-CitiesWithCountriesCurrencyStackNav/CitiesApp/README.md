@@ -1,8 +1,11 @@
-Input
-In this app, the user can enter two types of data: cities and countries. In the AddCity tab, the user types the city name and country name. In the AddCountry tab, the user types the country name and its currency. 
+**Input**
 
-Process
-The app uses React Native with React Navigation to create a mobile app with four tabs: Cities, AddCity, Countries, and AddCountry.
+The user can enter city, country, and currency information. 
 
-Output
-The Cities and Countries tabs display the list of added items. If no data has been added yet, a message appears like "No saved cities!" or "No saved countries!" Each city shows its name and country, and each country shows its name and currency.
+**Process**
+
+This app uses both tab navigation and stack navigation. There are four bottom tabs: CitiesNav, AddCity, CountriesNav, and AddCountry. In this exercise, we added a new stack navigation to the CountriesNav tab. 
+
+**Output**
+
+The app shows a dynamic list of cities and countries. Each country can have a list of currencies displayed in the Country screen.

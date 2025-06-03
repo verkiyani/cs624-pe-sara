@@ -8,12 +8,10 @@ class AddCountry extends React.Component {
     currency: ''
   }
 
-  // when user types something in the input fields
   onChangeText = (key, value) => {
     this.setState({ [key]: value })
   }
 
-  // when user presses the button to add a country
   submit = () => {
     const { name, currency } = this.state
     if (name === '' || currency === '') {
@@ -21,18 +19,16 @@ class AddCountry extends React.Component {
       return
     }
 
-    // create country object
     const newCountry = {
       name,
       currency
     }
 
-    // call the method passed from App.js
     this.props.addCountry(newCountry)
 
-    // reset the form
+    // Go back to CountriesNav tab (not a nested screen)
     this.setState({ name: '', currency: '' }, () => {
-      this.props.navigation.navigate('Countries')
+      this.props.navigation.navigate('CountriesNav')
     })
   }
 

@@ -1,24 +1,33 @@
 import React from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import CenterMessage from '../components/CenterMessage'
 import { colors } from '../theme'
 
 class Countries extends React.Component {
+  // when user taps on a country, navigate to its detail screen
+  navigate = (country) => {
+    this.props.navigation.navigate('Country', {
+      country: country,
+      countries: this.props.countries,
+      addCurrency: this.props.addCurrency
+    })
+  }
+
   render() {
     const { countries } = this.props
 
     return (
       <ScrollView contentContainerStyle={[!countries.length && { flex: 1 }]}>
         <View style={[!countries.length && { justifyContent: 'center', flex: 1 }]}>
-          {/* If no countries are added yet, show a message */}
           {!countries.length && <CenterMessage message="No saved countries!" />}
-
-          {/* Display each country in the list */}
+          
           {countries.map((item, index) => (
-            <View key={index} style={styles.countryContainer}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.currency}>{item.currency}</Text>
-            </View>
+            <TouchableWithoutFeedback onPress={() => this.navigate(item)} key={index}>
+              <View style={styles.countryContainer}>
+                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.currency}>{item.currency}</Text>
+              </View>
+            </TouchableWithoutFeedback>
           ))}
         </View>
       </ScrollView>
