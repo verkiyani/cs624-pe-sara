@@ -1,52 +1,51 @@
-import React from 'react'
-import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native'
-import CenterMessage from '../components/CenterMessage'
-import { colors } from '../theme'
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import CenterMessage from '../components/CenterMessage';
 
-class Countries extends React.Component {
-  // when user taps on a country, navigate to its detail screen
-  navigate = (country) => {
-    this.props.navigation.navigate('Country', {
-      country: country,
-      countries: this.props.countries,
-      addCurrency: this.props.addCurrency
-    })
-  }
-
-  render() {
-    const { countries } = this.props
-
-    return (
-      <ScrollView contentContainerStyle={[!countries.length && { flex: 1 }]}>
-        <View style={[!countries.length && { justifyContent: 'center', flex: 1 }]}>
-          {!countries.length && <CenterMessage message="No saved countries!" />}
-          
-          {countries.map((item, index) => (
-            <TouchableWithoutFeedback onPress={() => this.navigate(item)} key={index}>
-              <View style={styles.countryContainer}>
-                <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.currency}>{item.currency}</Text>
-              </View>
-            </TouchableWithoutFeedback>
-          ))}
-        </View>
+const Countries = ({ navigation, countries, addCurrency }) => {
+  return (
+    <View style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+        {countries.length ? (
+          countries.map((country, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() =>
+                navigation.navigate('Country', {
+                  country,
+                  addCurrency
+                })
+              }
+              style={styles.countryContainer}
+            >
+              <Text style={styles.countryName}>{country.name}</Text>
+              <Text style={styles.countryInfo}>{country.info}</Text>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <CenterMessage message="No countries added yet!" />
+        )}
       </ScrollView>
-    )
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   countryContainer: {
-    padding: 10,
     borderBottomWidth: 2,
-    borderBottomColor: colors.primary,
+    borderBottomColor: '#2196f3',
+    padding: 10
   },
-  name: {
+  countryName: {
     fontSize: 20,
+    fontWeight: 'bold'
   },
-  currency: {
-    color: 'rgba(0, 0, 0, .5)',
-  },
-})
+  countryInfo: {
+    fontSize: 16,
+    color: 'gray'
+  }
+});
 
-export default Countries
+export default Countries;

@@ -1,128 +1,104 @@
-import React from 'react'
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native'
-import CenterMessage from '../components/CenterMessage'
-import { colors } from '../theme'
+import React, { Component } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import CenterMessage from '../components/CenterMessage';
 
-class Country extends React.Component {
+export default class Country extends Component {
   state = {
     name: '',
     info: ''
-  }
+  };
 
   onChangeText = (key, value) => {
-    this.setState({ [key]: value })
-  }
+    this.setState({ [key]: value });
+  };
 
   addCurrency = () => {
-    const { name, info } = this.state
-    const params = this?.props?.route?.params || {}
-    const country = params.country
-    const addCurrency = params.addCurrency
+    if (this.state.name === '' || this.state.info === '') return;
+    const { route } = this.props;
+    const { country, addCurrency } = route.params;
 
-    if (!name || !info || !country || !addCurrency) return
+    addCurrency(country.id, {
+      name: this.state.name,
+      info: this.state.info
+    });
 
-    const newCurrency = { name, info }
-    addCurrency(newCurrency, country)
-
-    this.setState({ name: '', info: '' })
-  }
+    this.setState({ name: '', info: '' });
+  };
 
   render() {
-    const params = this?.props?.route?.params || {}
-    const countries = params.countries || []
-    const country = params.country || { name: '', currency: '', currencies: [] }
-
-    const updatedCountry = countries.find(c => c.name === country.name) || country
-    const currencyList = updatedCountry.currencies || []
+    const { route } = this.props;
+    const { country } = route.params;
 
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={[!currencyList.length && { flex: 1 }]}>
-          <View style={[styles.container, !currencyList.length && { justifyContent: 'center' }]}>
-            {!currencyList.length && (
-              <CenterMessage message="No currencies added yet." />
-            )}
-
-            {currencyList.map((cur, index) => (
+        <ScrollView style={styles.container}>
+          {country.currencies.length ? (
+            country.currencies.map((currency, index) => (
               <View key={index} style={styles.currencyContainer}>
-                <Text style={styles.currencyName}>{cur.name}</Text>
-                <Text style={styles.currencyInfo}>{cur.info}</Text>
+                <Text style={styles.currencyName}>{currency.name}</Text>
+                <Text style={styles.currencyInfo}>{currency.info}</Text>
               </View>
-            ))}
-          </View>
+            ))
+          ) : (
+            <CenterMessage message="No currencies added yet!" />
+          )}
         </ScrollView>
 
         <TextInput
+          style={styles.input}
           placeholder="Currency name"
-          placeholderTextColor="white"
+          placeholderTextColor="#fff"
           value={this.state.name}
           onChangeText={val => this.onChangeText('name', val)}
-          style={styles.input}
         />
-
         <TextInput
+          style={styles.input}
           placeholder="Currency info"
-          placeholderTextColor="white"
+          placeholderTextColor="#fff"
           value={this.state.info}
           onChangeText={val => this.onChangeText('info', val)}
-          style={[styles.input, styles.input2]}
         />
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this.addCurrency}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>Add Currency</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={this.addCurrency} style={styles.button}>
+          <Text style={styles.buttonText}>Add Currency</Text>
+        </TouchableOpacity>
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 104
+    flex: 1
   },
   currencyContainer: {
-    padding: 10,
-    borderBottomColor: colors.primary,
     borderBottomWidth: 2,
+    borderBottomColor: '#2196f3',
+    padding: 10
   },
   currencyName: {
-    fontSize: 20
+    fontSize: 20,
+    fontWeight: 'bold'
   },
   currencyInfo: {
-    color: 'rgba(0, 0, 0, .5)'
+    fontSize: 16,
+    color: 'gray'
   },
   input: {
-    height: 50,
-    backgroundColor: colors.primary,
-    color: 'white',
-    paddingHorizontal: 8,
-    position: 'absolute',
-    width: '100%',
-    bottom: 104,
-    left: 0
-  },
-  input2: {
-    bottom: 52
-  },
-  buttonContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: '100%'
+    backgroundColor: '#2196f3',
+    color: '#fff',
+    borderRadius: 5,
+    margin: 5,
+    padding: 10
   },
   button: {
-    height: 50,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: '#2196f3',
+    padding: 15,
+    alignItems: 'center',
+    margin: 5,
+    borderRadius: 5
   },
   buttonText: {
-    color: 'white'
+    color: '#fff',
+    fontWeight: 'bold'
   }
-})
-
-export default Country
+});

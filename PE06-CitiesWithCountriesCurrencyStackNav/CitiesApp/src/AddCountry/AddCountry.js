@@ -1,95 +1,71 @@
-import React from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import { colors } from '../theme'
+import React, { Component } from 'react';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import uuid from 'react-native-uuid';
 
-class AddCountry extends React.Component {
+export default class AddCountry extends Component {
   state = {
     name: '',
-    currency: ''
-  }
+    info: ''
+  };
 
   onChangeText = (key, value) => {
-    this.setState({ [key]: value })
-  }
+    this.setState({ [key]: value });
+  };
 
   submit = () => {
-    const { name, currency } = this.state
-    if (name === '' || currency === '') {
-      alert('Please complete the form')
-      return
-    }
-
-    const newCountry = {
-      name,
-      currency
-    }
-
-    this.props.addCountry(newCountry)
-
-    // Go back to CountriesNav tab (not a nested screen)
-    this.setState({ name: '', currency: '' }, () => {
-      this.props.navigation.navigate('CountriesNav')
-    })
-  }
+    if (this.state.name === '' || this.state.info === '') return;
+    const country = {
+      name: this.state.name,
+      info: this.state.info,
+      id: uuid.v4()
+    };
+    this.props.addCountry(country);
+    this.setState({ name: '', info: '' });
+    this.props.navigation.navigate('CountriesNav');
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>Countries</Text>
-
         <TextInput
+          style={styles.input}
           placeholder="Country name"
-          style={styles.input}
           value={this.state.name}
-          onChangeText={(val) => this.onChangeText('name', val)}
+          onChangeText={val => this.onChangeText('name', val)}
         />
-
         <TextInput
-          placeholder="Currency"
           style={styles.input}
-          value={this.state.currency}
-          onChangeText={(val) => this.onChangeText('currency', val)}
+          placeholder="Country info"
+          value={this.state.info}
+          onChangeText={val => this.onChangeText('info', val)}
         />
-
-        <TouchableOpacity onPress={this.submit}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Add Country</Text>
-          </View>
+        <TouchableOpacity onPress={this.submit} style={styles.button}>
+          <Text style={styles.buttonText}>Add Country</Text>
         </TouchableOpacity>
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-  },
-  heading: {
-    color: 'white',
-    fontSize: 40,
-    alignSelf: 'center',
-    marginBottom: 10,
+    margin: 20
   },
   input: {
-    backgroundColor: 'white',
-    margin: 10,
-    height: 50,
-    paddingHorizontal: 10
+    borderWidth: 1,
+    borderColor: '#2196f3',
+    borderRadius: 5,
+    marginBottom: 10,
+    padding: 10
   },
   button: {
-    backgroundColor: '#666',
-    margin: 10,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: '#2196f3',
+    padding: 15,
+    alignItems: 'center',
+    borderRadius: 5
   },
   buttonText: {
-    color: 'white',
-    fontSize: 18
+    color: '#fff',
+    fontWeight: 'bold'
   }
-})
-
-export default AddCountry
+});
